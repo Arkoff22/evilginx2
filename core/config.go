@@ -87,8 +87,6 @@ type Config struct {
 	phishletNames   []string
 	activeHostnames []string
 	redirectorsDir  string
-	webhookUrl      string
-	webhookParam    string
 	lures           []*Lure
 	lureIds         []string
 	subphishlets    []*SubPhishlet
@@ -96,16 +94,14 @@ type Config struct {
 }
 
 const (
-	CFG_GENERAL       = "general"
-	CFG_CERTIFICATES  = "certificates"
-	CFG_LURES         = "lures"
-	CFG_PROXY         = "proxy"
-	CFG_PHISHLETS     = "phishlets"
-	CFG_BLACKLIST     = "blacklist"
-	CFG_WEBHOOK_URL   = "webhook_url"
-	CFG_WEBHOOK_PARAM = "webhook_param"
-	CFG_SUBPHISHLETS  = "subphishlets"
-	CFG_GOPHISH       = "gophish"
+	CFG_GENERAL      = "general"
+	CFG_CERTIFICATES = "certificates"
+	CFG_LURES        = "lures"
+	CFG_PROXY        = "proxy"
+	CFG_PHISHLETS    = "phishlets"
+	CFG_BLACKLIST    = "blacklist"
+	CFG_SUBPHISHLETS = "subphishlets"
+	CFG_GOPHISH      = "gophish"
 )
 
 const DEFAULT_UNAUTH_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // Rick'roll
@@ -120,7 +116,6 @@ func NewConfig(cfg_dir string, path string) (*Config, error) {
 		phishletNames:   []string{},
 		lures:           []*Lure{},
 		blacklistConfig: &BlacklistConfig{},
-		
 	}
 
 	c.cfg = viper.New()
@@ -355,18 +350,6 @@ func (c *Config) SetProxyPassword(password string) {
 	c.proxyConfig.Password = password
 	c.cfg.Set(CFG_PROXY, c.proxyConfig)
 	log.Info("proxy password set to: %s", password)
-	c.cfg.WriteConfig()
-}
-
-func (c *Config) webhookUrl(webhookUrl string) {
-	c.c.webhookUrl = webhookUrl
-	c.cfg.GetString(CFG_WEBHOOK_URL)
-	c.cfg.WriteConfig()
-}
-
-func (c *Config) webhookParam(webhookParam string) {
-	c.webhookParam = webhookParam
-	c.cfg.GetString(CFG_WEBHOOK_PARAM)
 	c.cfg.WriteConfig()
 }
 
